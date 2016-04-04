@@ -25,7 +25,11 @@ TABS.setup.initialize = function (callback) {
     }
 
     function load_misc_data() {
-        MSP.send_message(MSP_codes.MSP_MISC, false, false, load_html);
+        MSP.send_message(MSP_codes.MSP_MISC, false, false, load_mixer_config);
+    }
+
+    function load_mixer_config() {
+        MSP.send_message(MSP_codes.MSP_GET_MIXER_CONFIG, false, false, load_html);
     }
 
     function load_html() {

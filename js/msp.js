@@ -90,6 +90,7 @@ var MSP_codes = {
     
     MSP_SERVO_MIX_RULES:    241,
     MSP_SET_SERVO_MIX_RULE: 242,
+    MSP_GET_MIXER_CONFIG:   244,
 
     MSP_EEPROM_WRITE:       250,
 
@@ -496,6 +497,21 @@ var MSP = {
             case MSP_codes.MSP_SERVO_MIX_RULES:
                 break;
 
+            case MSP_codes.MSP_GET_MIXER_CONFIG:
+                MIXER_CONFIG = []; // empty the array as new data is coming in
+                if (data.byteLength % 16 == 0) {
+                    for (var i = 0; i < data.byteLength; i += 16) {
+                        var arr = {
+                            'throttle':                 data.getFloat32(i + 0),
+                            'roll':                     data.getFloat32(i + 4),
+                            'pitch':                    data.getFloat32(i + 8),
+                            'yaw':                      data.getFloat32(i + 12),
+                        };
+
+                        MIXER_CONFIG.push(arr);
+                    }
+                }
+                break;
             case MSP_codes.MSP_SERVO_CONFIGURATIONS:
                 SERVO_CONFIG = []; // empty the array as new data is coming in
 
